@@ -11,3 +11,7 @@
 想进一步了解请看`概要设计文档.docx`
 
 ![struct](README/struct.png)
+
+### 使用到的项目
+
+https://github.com/nativefier/nativefier
