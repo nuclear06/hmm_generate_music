@@ -1,0 +1,121 @@
+body {
+    background-image: url("/static/img/server-background.png");
+    background-size: auto;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+#app, html, body {
+    height: 100%;
+}
+
+.el-container {
+    height: 100%;
+}
+
+.el-aside {
+    background-color: #545c64;
+}
+
+.el-header {
+    background-color: rgba(171, 206, 205, 0.96);
+}
+.el-checkbox__input.is-disabled+span.el-checkbox__label{
+    color: #c4161d;
+}
+
+#exit_btn {
+    background-color: transparent;
+    border-style: none;
+    font-size: 25px;
+    padding-top: 15px;
+    padding-right: 0;
+}
+
+.el-main {
+    background-color: rgba(254, 255, 231, 0.13);
+}
+
+#main-form {
+    margin: 30px;
+    font-size: 20px;
+    background-color: rgba(233, 227, 255, 0.9);
+    padding: 30px;
+    padding-left: 10%;
+    border-radius: 20px;
+    box-shadow: 0 3px 18px rgba(100, 0, 0, .5);
+
+    height: 700px;
+    width: 60%;
+    min-width: 460px;
+}
+
+.el-icon-smile {
+    background-image: url('/static/img/smile.png');
+    background-size: 100% 100%;
+    width: 30px;
+    height: 30px;
+}
+
+.el-icon-cry {
+    background-image: url('/static/img/cry.png');
+    background-size: 100% 100%;
+    width: 30px;
+    height: 30px;
+}
+.el-icon-stop {
+    background-image: url('/static/img/stopBtn.png');
+    background-size: 100% 100%;
+    width: 15px;
+    height: 15px;
+    margin: 2px 2px 1px 3px;
+}
+
+.el-checkbox {
+    width: 100px;
+    height: 25px;
+    margin: 10px;
+}
+
+.el-slider__bar {
+    background-color: red;
+}
+
+.el-slider__runway {
+    background-color: #7ad67a;
+}
+
+#mainBtn {
+    width: 60px;
+    height: 60px;
+    padding: 0;
+    font-size: 30px;
+}
+
+.recordBtn {
+    font-size: 20px;
+}
+
+
+
+
+.time1 {
+    width: 112px;
+    background: repeating-linear-gradient(135deg, transparent, transparent 3px, rgb(228, 161, 85) 3px, rgb(240, 118, 118) 8px);
+    animation: shine 1s infinite linear;
+    overflow: hidden;
+    border-radius: 10px;
+}
+.time2 {
+    border-radius: 10px;
+    height: 20px;
+    width: 90px;
+    margin: 6px;
+    padding: 1px 0px 19px 10px;
+    background-color: black;
+    color: white;
+}
+@-webkit-keyframes shine {
+    0% { background-position: -1px -1px;}
+    100% { background-position: -12px -12px;}
+}

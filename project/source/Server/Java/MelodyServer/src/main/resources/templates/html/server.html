@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>旋律生成系统</title>
+    <script src="https://cdn.staticfile.org/vue/2.6.14/vue.js"></script>
+    <link rel="stylesheet" href="/static/css/normalize.css">
+    <link rel="stylesheet" href="https://unpkg.com/element-ui@2.12.0/lib/theme-chalk/index.css">
+    <!--    <link rel="stylesheet" href="/static/css/server.css">-->
+    <script src="https://unpkg.com/element-ui@2.12.0/lib/index.js"></script>
+    <script src="https://www.unpkg.com/jquery@3.6.3/dist/jquery.min.js"></script>
+    <script src="/static/js/axios.js"></script>
+    <link rel="stylesheet" href="/static/css/server.css">
+</head>
+<body>
+<div id="app">
+    <el-container>
+        <el-aside style="width: 200px">
+            <el-menu default-active="1" class="el-menu-vertical-demo" background-color="#545c64" text-color="#fff"
+                     active-text-color="#ffd04b" @select="formChange">
+                <el-menu-item index="1">
+                    <i class="el-icon-place"></i>
+                    <span>AI伴奏</span>
+                </el-menu-item>
+
+                <el-menu-item index="2">
+                    <i class="el-icon-time"></i>
+                    <span>历史记录</span>
+                </el-menu-item>
+            </el-menu>
+        </el-aside>
+
+        <el-container>
+            <el-header style="text-align: right; font-size: 20px">
+                <span style="font-size: 20px;font-weight: bold">Hi! {{ username }}</span>
+                <el-popover
+                        trigger="hover"
+                        width="150"
+                        content="退出当前账号">
+                    <el-button id="exit_btn" icon='el-icon-s-promotion' slot="reference" @click="exitUser"></el-button>
+                </el-popover>
+            </el-header>
+
+            <el-main>
+                <el-table id="main-table" :data="tableData" v-if="showTable"
+                          :header-cell-style="{'text-align':'center'}"
+                          :cell-style="{'text-align':'center'}"
+                          stripe>
+                    <el-table-column type="index" label="ID">
+                    </el-table-column>
+                    <el-table-column
+                            prop="date" label="日期" width="160">
+                    </el-table-column>
+                    <el-table-column label="旋律生成所选信息">
+                        <el-table-column
+                                prop="rhythm" label="节拍" >
+                        </el-table-column>
+                        <el-table-column
+                                prop="key" label="key">
+                        </el-table-column>
+                        <el-table-column
+                                prop="speed" label="速度">
+                        </el-table-column>
+                        <el-table-column
+                                prop="mention" label="感情倾向">
+                        </el-table-column>
+                        <el-table-column
+                                prop="piano" label="钢琴">
+                        </el-table-column>
+                        <el-table-column
+                                prop="chordPiano" label="钢琴和弦">
+                        </el-table-column>
+                        <el-table-column
+                                prop="guitar" label="吉他">
+                        </el-table-column>
+                        <el-table-column
+                                prop="chordGuitar" label="吉他和弦">
+                        </el-table-column>
+                        <el-table-column
+                                prop="drum" label="鼓">
+                        </el-table-column>
+                        <el-table-column
+                                prop="bass" label="贝斯">
+                        </el-table-column>
+                    </el-table-column>
+                    <el-table-column label="操作" width="180">
+                        <template slot-scope="scope">
+                            <el-button
+                                    size="mini"
+                                    type="primary"
+                                    round
+                                    @click="downloadOriginFile(scope.$index, scope.row)">原声
+                            </el-button>
+                            <el-button
+                                    size="mini"
+                                    type="primary"
+                                    round
+                                    @click="downloadGenerateMusic(scope.$index, scope.row)">
+                                伴奏</el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+
+                <div style="display: flex; justify-content: center; align-items: center;">
+                    <el-form label-position="left" label-width="100px" id="main-form" :model="formData"
+                             v-if="showForm===true" :rules="rules" ref="uploadForm">
+                        <el-form-item label="音乐节奏" prop="rhythm">
+                            <el-radio-group v-model="formData.rhythm">
+                                <el-radio name="rhythm" :label=0>3/4拍</el-radio>
+                                <el-radio name="rhythm" :label=1>4/4拍</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+
+                        <el-form-item label="速度(BPM)" prop="speed">
+                            <el-input style="width: 250px;"
+                                      size="small"
+                                      v-model.number="formData.speed"
+                                      autocomplete="off"></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="key" prop="key">
+                            <el-select style="width: 250px" v-model="formData.key" placeholder="key">
+                                <el-option label="C" value="0"></el-option>
+                                <el-option label="#C" value="1"></el-option>
+                                <el-option label="D" value="2"></el-option>
+                                <el-option label="#D" value="3"></el-option>
+                                <el-option label="E" value="4"></el-option>
+                                <el-option label="F" value="5"></el-option>
+                                <el-option label="#F" value="6"></el-option>
+                                <el-option label="G" value="7"></el-option>
+                                <el-option label="#G" value="8"></el-option>
+                                <el-option label="A" value="9"></el-option>
+                                <el-option label="#A" value="10"></el-option>
+                                <el-option label="B" value="11"></el-option>
+                            </el-select>
+                        </el-form-item>
+
+                        <el-form-item label="情绪" prop="mention">
+                            <div style="display: flex; align-items: center;">
+                                <i class="el-icon-cry"></i>
+                                <el-slider style="width: 170px;margin: 0px 10px 0px 20px;"
+                                           v-model="formData.mention"></el-slider>
+                                <i class="el-icon-smile"></i>
+                            </div>
+                        </el-form-item>
+
+                        <el-form-item style="border: #7ad67a solid 1px;
+                        border-radius: 5px;
+                        padding: 5px 5px 5px 10px;max-width: 480px;min-width: 465px;background-color: rgba(255,148,73,0.29)"
+                                      label="乐器分解" prop="checkList">
+                            <el-checkbox-group size="medium" :min=1 v-model="formData.checkList">
+                                <div style="display: block">
+                                    <el-checkbox :border=true label="钢琴分解"></el-checkbox>
+                                    <el-checkbox :border=true label="钢琴柱式"></el-checkbox>
+                                    <el-checkbox :border=true label="吉他分解"></el-checkbox>
+                                </div>
+                                <div style="display: block">
+                                    <el-checkbox :border=true label="吉他柱式"></el-checkbox>
+                                    <el-checkbox :border=true label="鼓"></el-checkbox>
+                                    <el-checkbox :border=true label="贝斯"></el-checkbox>
+                                </div>
+                            </el-checkbox-group>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-switch
+                                    active-text="上传文件"
+                                    inactive-text="在线录音"
+                                    v-model="uploadFile"
+                                    active-color="#13ce66"
+                                    inactive-color="#ff4949">
+                            </el-switch>
+                        </el-form-item>
+                        <div style="height: 100px">
+                            <el-form-item v-if="uploadFile===true" label="音频文件" ref="uploadElement" prop="soundUrl"
+                                          style="max-width:350px ">
+
+                                <el-input v-model="formData.soundUrl" v-if="false"></el-input>
+                                <el-upload
+                                        class="avatar-uploader"
+                                        ref="upload"
+                                        :limit=2
+                                        :on-change="handleChange"
+                                        :on-remove="removeSoundFile"
+                                        :http-request="uploadToServer"
+                                        :action="soundUploadUrl"
+                                        :auto-upload="false"
+                                        accept=".wav,.mp3"
+                                        :file-list="formData.soundFile"
+                                        :data="formData">
+                                    <el-button
+                                               class="el-icon-plus avatar-uploader-icon"
+                                               type="primary"
+                                               circle></el-button>
+                                    <div slot="tip" class="el-upload__tip">只能上传wav/mp3文件，且不超过20Mb</div>
+                                </el-upload>
+                            </el-form-item>
+
+                            <el-form-item v-if="uploadFile===false" label="录音" prop="recordFile">
+
+                                <el-row>
+
+                                    <div style="margin:0 0 20px 30px;font-size: 20px;">
+                                        <div class="time1">
+                                            <div class="time2">
+                                                {{ minute }}:{{ second }}:{{ ms }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </el-row>
+                                <el-button id="recordBtn"
+                                           class="recordBtn"
+                                           :icon=recordIcon
+                                           :type=recordBtnType
+                                           @click="recordSound"
+                                           v-if="formData.recordFile===null"
+                                           circle></el-button>
+                                <el-button icon="el-icon-stop"
+                                           class="myRecordBtn"
+                                           @click="stopRecord"
+                                           type="primary"
+                                           :disabled=!recordStart
+                                           v-if="formData.recordFile===null"
+                                           circle></el-button>
+
+                                <el-button :icon=playBtnIcon
+                                           class="recordBtn"
+                                           :type=playBtnType
+                                           @click="playRecord"
+                                           v-if="formData.recordFile!==null"
+                                           circle></el-button>
+
+                                <el-button icon="el-icon-download"
+                                           class="recordBtn"
+                                           type="primary"
+                                           @click="downloadRecord"
+                                           v-if="formData.recordFile!==null"
+                                           circle></el-button>
+
+                                <el-button icon="el-icon-delete"
+                                           @click="deleteRecord"
+                                           class="recordBtn"
+                                           type="danger"
+                                           v-if="formData.recordFile!==null"
+                                           circle></el-button>
+                            </el-form-item>
+                        </div>
+                        <el-form-item style="margin-left: 10% ;margin-top: 50px">
+                            <el-button id="mainBtn"
+                                       circle
+                                       icon="el-icon-right"
+                                       type="primary"
+                                       size="medium"
+                                       @click="submitForm('uploadForm')"
+                            ></el-button>
+                        </el-form-item>
+
+                    </el-form>
+                </div>
+            </el-main>
+        </el-container>
+    </el-container>
+</div>
+<script src="/static/js/recorder.js"></script>
+<script src="/static/js/server.js"></script>
+</body>
+</html>

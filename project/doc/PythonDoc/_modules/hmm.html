@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>hmm &mdash; HMM 0.1.7-Delta documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            HMM
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">HMM</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">hmm</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for hmm</h1><div class="highlight"><pre>
+<span></span><span class="c1"># coding=utf8</span>
+
+<span class="kn">import</span> <span class="nn">xlrd</span>
+<span class="kn">import</span> <span class="nn">xlwt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">math</span>
+
+
+<span class="c1"># 从表格中读取数据</span>
+<div class="viewcode-block" id="read_data_mul"><a class="viewcode-back" href="../hmm.html#hmm.read_data_mul">[docs]</a><span class="k">def</span> <span class="nf">read_data_mul</span><span class="p">(</span><span class="n">file</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    以ndarry形式返回文件数据</span>
+
+<span class="sd">    :param file: 读取的文件</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">xlrd</span><span class="o">.</span><span class="n">open_workbook</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+    <span class="n">table</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">sheets</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">n_rows</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">nrows</span>
+    <span class="n">_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_rows</span><span class="p">):</span>
+        <span class="n">_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">row_values</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">_list</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="read_data_single"><a class="viewcode-back" href="../hmm.html#hmm.read_data_single">[docs]</a><span class="k">def</span> <span class="nf">read_data_single</span><span class="p">(</span><span class="n">file</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    从xls文件读取数据，仅返回第一行数据。</span>
+
+<span class="sd">    :param file: 文件路径</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">xlrd</span><span class="o">.</span><span class="n">open_workbook</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+    <span class="n">table</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">sheets</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">table</span><span class="o">.</span><span class="n">row_values</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="HMM"><a class="viewcode-back" href="../hmm.html#hmm.HMM">[docs]</a><span class="k">class</span> <span class="nc">HMM</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">pi</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        初始化HMM模型</span>
+
+<span class="sd">        :param a: 状态转移概率矩阵</span>
+<span class="sd">        :param b: 输出观察概率矩阵</span>
+<span class="sd">        :param pi:  初始化状态向量</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+        <span class="c1"># print (A)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pi</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">N</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># 总共状态个数</span>
+        <span class="c1"># print(self.N)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">M</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># 总共观察值个数</span>
+        <span class="c1"># print(self.M)</span>
+
+    <span class="c1"># 将数据写回表格</span>
+<div class="viewcode-block" id="HMM.data_write_single"><a class="viewcode-back" href="../hmm.html#hmm.HMM.data_write_single">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">data_write_single</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        将一维数组写入xls文件</span>
+
+<span class="sd">        :param file_path: 文件名</span>
+<span class="sd">        :param data: 数据</span>
+<span class="sd">        :param n: 长度</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">xlwt</span><span class="o">.</span><span class="n">Workbook</span><span class="p">()</span>
+        <span class="n">sheet1</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">add_sheet</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;sheet1&#39;</span><span class="p">,</span> <span class="n">cell_overwrite_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># 创建sheet</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="n">sheet1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>  <span class="c1"># 保存文件</span></div>
+
+<div class="viewcode-block" id="HMM.viterbi"><a class="viewcode-back" href="../hmm.html#hmm.HMM.viterbi">[docs]</a>    <span class="k">def</span> <span class="nf">viterbi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observe</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        维特比算法，用于解码给定的观察序列并计算在HMM模型中最有可能的状态序列，即最优路径。</span>
+
+<span class="sd">        :param observe: 观察序列，每个元素表示在对应时间步长中观察到的状态</span>
+<span class="sd">        :param state: 隐藏状态序列，每个元素表示在对应时间步长中的隐藏状态</span>
+<span class="sd">        :return: 在HMM模型中最有可能的状态序列，即最优路径.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">max_p</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">)]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">observe</span><span class="p">))]</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">)]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">observe</span><span class="p">))]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">):</span>
+            <span class="n">max_p</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pi</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="p">[</span><span class="n">state</span><span class="p">[</span><span class="n">i</span><span class="p">]][</span><span class="n">observe</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+            <span class="n">path</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">observe</span><span class="p">)):</span>
+            <span class="n">max_item</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">)]</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">):</span>
+                <span class="n">item</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">state</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">):</span>
+                    <span class="n">p</span> <span class="o">=</span> <span class="n">max_p</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="p">[</span><span class="n">state</span><span class="p">[</span><span class="n">j</span><span class="p">]][</span><span class="n">observe</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">state</span><span class="p">[</span><span class="n">k</span><span class="p">]][</span><span class="n">state</span><span class="p">[</span><span class="n">j</span><span class="p">]]</span>
+                    <span class="n">item</span><span class="p">[</span><span class="n">state</span><span class="p">[</span><span class="n">k</span><span class="p">]]</span> <span class="o">=</span> <span class="n">p</span>
+                <span class="n">max_item</span><span class="p">[</span><span class="n">state</span><span class="p">[</span><span class="n">j</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+                <span class="n">path</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">state</span><span class="p">[</span><span class="n">j</span><span class="p">]]</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">item</span><span class="p">))</span>
+            <span class="n">max_p</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">max_item</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">max_p</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">observe</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">max_p</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">observe</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]))</span>
+        <span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">observe</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">path</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">p</span><span class="p">])</span>
+            <span class="n">p</span> <span class="o">=</span> <span class="n">path</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">p</span><span class="p">]</span>
+        <span class="n">path</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">path</span></div></div>
+
+
+<span class="c1"># 当一首歌除音调外保持一致时,使用大调偏欢乐,使用小调偏悲伤</span>
+<div class="viewcode-block" id="mmm"><a class="viewcode-back" href="../hmm.html#hmm.mmm">[docs]</a><span class="k">def</span> <span class="nf">mmm</span><span class="p">(</span><span class="n">emo</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    使用viterbi算法计算最优序列并返回,序列也会写入out.xls</span>
+
+<span class="sd">    :param emo: 情绪值，要处于[0,1]</span>
+<span class="sd">    :return: 最优序列</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pi</span> <span class="o">=</span> <span class="n">read_data_single</span><span class="p">(</span><span class="s1">&#39;src-开头和弦-pi.xls&#39;</span><span class="p">)</span>
+    <span class="n">A_happy</span> <span class="o">=</span> <span class="n">read_data_mul</span><span class="p">(</span><span class="s1">&#39;src-大调和弦矩阵-a.xls&#39;</span><span class="p">)</span>
+    <span class="n">A_sad</span> <span class="o">=</span> <span class="n">read_data_mul</span><span class="p">(</span><span class="s1">&#39;src-小调和弦矩阵-a.xls&#39;</span><span class="p">)</span>
+
+    <span class="n">A_happy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">A_happy</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.0001</span><span class="p">,</span> <span class="n">A_happy</span><span class="p">)</span>
+    <span class="n">A_sad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">A_sad</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.0001</span><span class="p">,</span> <span class="n">A_sad</span><span class="p">)</span>
+    <span class="n">_log10</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vectorize</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log10</span><span class="p">)</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="p">(</span><span class="n">emo</span> <span class="o">*</span> <span class="n">_log10</span><span class="p">(</span><span class="n">A_happy</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">emo</span><span class="p">)</span> <span class="o">*</span> <span class="n">_log10</span><span class="p">(</span><span class="n">A_sad</span><span class="p">))</span>
+
+    <span class="n">s_list1</span> <span class="o">=</span> <span class="n">read_data_mul</span><span class="p">(</span><span class="s1">&#39;src-大调单音矩阵-b-pre.xls&#39;</span><span class="p">)</span>
+    <span class="n">s_list2</span> <span class="o">=</span> <span class="n">read_data_mul</span><span class="p">(</span><span class="s1">&#39;src-小调单音矩阵-b-pre.xls&#39;</span><span class="p">)</span>
+    <span class="n">s_list1</span> <span class="o">=</span> <span class="n">_log10</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">s_list1</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="n">s_list1</span><span class="p">))</span>
+    <span class="n">s_list2</span> <span class="o">=</span> <span class="n">_log10</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">s_list2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">,</span> <span class="n">s_list2</span><span class="p">))</span>
+
+    <span class="n">melody</span> <span class="o">=</span> <span class="n">xlrd</span><span class="o">.</span><span class="n">open_workbook</span><span class="p">(</span><span class="s1">&#39;melody.xls&#39;</span><span class="p">)</span>  <span class="c1"># 读取之前传入的数据</span>
+    <span class="n">m_table</span> <span class="o">=</span> <span class="n">melody</span><span class="o">.</span><span class="n">sheets</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># 获取第一个表</span>
+    <span class="n">n_treasure</span> <span class="o">=</span> <span class="n">m_table</span><span class="o">.</span><span class="n">nrows</span>  <span class="c1"># 得到行数</span>
+    <span class="n">m_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_treasure</span><span class="p">):</span>
+        <span class="n">m_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">m_table</span><span class="o">.</span><span class="n">row_values</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+        <span class="c1"># 将xls文件数据读取到数组</span>
+    <span class="n">mT</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">m_list</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>  <span class="c1"># 矩阵转置</span>
+
+    <span class="n">B1</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">s_list1</span><span class="p">,</span> <span class="n">mT</span><span class="p">)</span>  <span class="c1"># 大调单音矩阵乘数据矩阵(60*12)x(12*4)=(60*4)</span>
+    <span class="n">sum_list1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">B1</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># 对B1矩阵每行求和,得到60个和,存储到数组中</span>
+    <span class="n">B1</span> <span class="o">=</span> <span class="n">B1</span> <span class="o">/</span> <span class="n">sum_list1</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+
+    <span class="c1"># 以下操作同上</span>
+    <span class="n">B2</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">s_list2</span><span class="p">,</span> <span class="n">mT</span><span class="p">)</span>
+    <span class="n">sum_list2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">B2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">B2</span> <span class="o">=</span> <span class="n">B2</span> <span class="o">/</span> <span class="n">sum_list2</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+
+    <span class="n">B</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="p">(</span><span class="n">emo</span> <span class="o">*</span> <span class="n">_log10</span><span class="p">(</span><span class="n">B1</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">emo</span><span class="p">)</span> <span class="o">*</span> <span class="n">_log10</span><span class="p">(</span><span class="n">B2</span><span class="p">))</span>
+
+    <span class="n">ob</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_treasure</span><span class="p">)]</span>
+    <span class="n">state_s</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">60</span><span class="p">)]</span>
+
+    <span class="n">hmm</span> <span class="o">=</span> <span class="n">HMM</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">pi</span><span class="p">)</span>  <span class="c1"># A隐含状态 B观察序列</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">hmm</span><span class="o">.</span><span class="n">viterbi</span><span class="p">(</span><span class="n">ob</span><span class="p">,</span> <span class="n">state_s</span><span class="p">)</span>  <span class="c1"># 使用维特比算法解码</span>
+
+    <span class="n">hmm</span><span class="o">.</span><span class="n">data_write_single</span><span class="p">(</span><span class="s1">&#39;out.xls&#39;</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">n_treasure</span><span class="p">)</span>  <span class="c1"># 保存输出到xls</span>
+    <span class="k">return</span> <span class="n">result</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">mmm</span><span class="p">(</span><span class="mf">0.1</span><span class="p">))</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Anonymous.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

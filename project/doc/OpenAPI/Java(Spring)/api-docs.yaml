@@ -1,0 +1,584 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+  - url: https://localhost
+    description: Generated server url
+tags:
+  - name: BaseController
+    description: 提供网站访问的部分基础功能，可以在未登录的情况下访问
+  - name: DownloadController
+    description: 用户下载数据的接口
+  - name: UserController
+    description: 实现用户注册登陆所需功能的接口
+  - name: ServerController
+    description: 业务核心接口，用于业务的请求
+  - name: ErrorController
+    description: 当用户访问错误网址或权限不足时用于返回错误网页
+  - name: LoginController
+    description: 用于返回登陆界面，本身不实现登陆业务
+paths:
+  /user:
+    get:
+      tags:
+        - UserController
+      summary: 检测用户名是否被占用
+      operationId: exist
+      parameters:
+        - name: username
+          in: query
+          description: 需要检测的用户名
+          required: true
+          schema:
+            type: string
+      responses:
+        "4001":
+          description: 用户名已被占用
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Result'
+        "4000":
+          description: 用户名可用
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Result'
+    post:
+      tags:
+        - UserController
+      summary: 用户注册
+      description: 用户名不能重复
+      operationId: register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        "6001":
+          description: 注册失败
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Result'
+        "1001":
+          description: 验证码错误
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Result'
+        "6000":
+          description: 注册成功
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Result'
+  /user/login:
+    post:
+      tags:
+        - UserController
+      summary: 用户登陆请求
+      operationId: home
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        "5000":
+          description: 登陆成功
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Result'
+        "1001":
+          description: 验证码错误
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Result'
+        "5001":
+          description: 登陆失败
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Result'
+  /server:
+    post:
+      tags:
+        - ServerController
+      summary: 主业务接口，返回配乐文件的哈希值
+      operationId: mainServer
+      parameters:
+        - name: map
+          in: query
+          required: true
+          schema:
+            type: object
+            additionalProperties:
+              type: object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+                - file
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        default:
+          description: 标准返回格式，data为生成文件的md5值
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Result'
+  /user/exit:
+    get:
+      tags:
+        - UserController
+      summary: 用户退出登陆
+      description: 用户访问该链接后，服务端清除登陆信息
+      operationId: exit
+      responses:
+        default:
+          description: 退出登陆成功
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Result'
+  /user/data:
+    get:
+      tags:
+        - UserController
+      summary: 获得用户个人数据
+      description: 包括用户名，请求历史等
+      operationId: getUserData
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserData'
+  /register:
+    get:
+      tags:
+        - LoginController
+      summary: 获取注册界面
+      operationId: register_1
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+  /publickey:
+    get:
+      tags:
+        - BaseController
+      summary: 获取RSA公钥
+      description: 具体算法为RSA2048
+      operationId: getPuvKey
+      responses:
+        "200":
+          description: 通用返回格式，data为没有头尾标记信息的PEM格式
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Result'
+  /login:
+    get:
+      tags:
+        - LoginController
+      summary: 获取登陆界面
+      operationId: login
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+  /favicon.ico:
+    get:
+      tags:
+        - BaseController
+      summary: 获取网站图标
+      operationId: favicon
+      responses:
+        default:
+          description: 网页ico的二进制流
+  /download/{md5}:
+    get:
+      tags:
+        - DownloadController
+      summary: 根据md5下载对应文件
+      operationId: downFile
+      parameters:
+        - name: md5
+          in: path
+          description: 想下载文件的哈希值
+          required: true
+          schema:
+            type: string
+      responses:
+        default:
+          description: 返回文件的二进制数据
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Result'
+  /download/person/{index}:
+    get:
+      tags:
+        - DownloadController
+      summary: 下载历史数据文件
+      description: 根据索引下载用户自身的历史数据
+      operationId: downPersonalFile
+      parameters:
+        - name: origin
+          in: query
+          description: 若为1则返回原始文件，为0返回配乐后文件
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: index
+          in: path
+          description: 下载的数据的索引
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        default:
+          description: 返回文件的二进制数据
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Result'
+  /captcha:
+    get:
+      tags:
+        - BaseController
+      summary: 获取验证码图片
+      description: 6位数字与字母的随机组合
+      operationId: getCaptcha
+      responses:
+        default:
+          description: 返回验证码图片的二进制流
+  /:
+    get:
+      tags:
+        - BaseController
+      summary: 访问默认界面
+      description: 页面会自动跳转
+      operationId: defaultPage
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+  /error:
+    get:
+      tags:
+        - ErrorController
+      summary: 返回404网页
+      operationId: error404Page
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+    put:
+      tags:
+        - ErrorController
+      summary: 返回404网页
+      operationId: error404Page_3
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+    post:
+      tags:
+        - ErrorController
+      summary: 返回404网页
+      operationId: error404Page_2
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+    delete:
+      tags:
+        - ErrorController
+      summary: 返回404网页
+      operationId: error404Page_5
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+    options:
+      tags:
+        - ErrorController
+      summary: 返回404网页
+      operationId: error404Page_6
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+    head:
+      tags:
+        - ErrorController
+      summary: 返回404网页
+      operationId: error404Page_1
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+    patch:
+      tags:
+        - ErrorController
+      summary: 返回404网页
+      operationId: error404Page_4
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+  /error/403:
+    get:
+      tags:
+        - ErrorController
+      summary: 返回403网页
+      operationId: error403Page
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+    put:
+      tags:
+        - ErrorController
+      summary: 返回403网页
+      operationId: error403Page_3
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+    post:
+      tags:
+        - ErrorController
+      summary: 返回403网页
+      operationId: error403Page_2
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+    delete:
+      tags:
+        - ErrorController
+      summary: 返回403网页
+      operationId: error403Page_5
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+    options:
+      tags:
+        - ErrorController
+      summary: 返回403网页
+      operationId: error403Page_6
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+    head:
+      tags:
+        - ErrorController
+      summary: 返回403网页
+      operationId: error403Page_1
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+    patch:
+      tags:
+        - ErrorController
+      summary: 返回403网页
+      operationId: error403Page_4
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+components:
+  schemas:
+    User:
+      required:
+        - captcha
+        - password
+        - username
+      type: object
+      properties:
+        id:
+          type: integer
+          description: id值
+          format: int32
+        username:
+          pattern: "^[a-zA-Z0-9_\\u4e00-\\u9fa5]+$"
+          type: string
+          description: 用户名
+        password:
+          type: string
+          description: 密码
+        captcha:
+          type: string
+          description: 验证码，用于发送请求时验证
+      description: 要登录的用户信息
+    Result:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: 自定义响应代码
+          format: int32
+        data:
+          type: object
+          description: 传入前端的数据
+          example: 二进制数据
+        msg:
+          type: string
+          description: 传入前端的信息
+      description: 通用返回结果
+    History:
+      type: object
+      properties:
+        date:
+          type: string
+          description: 时间戳
+          format: date-time
+        rhythm:
+          type: integer
+          description: 请求的旋律
+          format: int32
+        key:
+          type: string
+          description: 请求的key
+        speed:
+          type: integer
+          description: 请求的速度
+          format: int32
+        mention:
+          type: number
+          description: 请求的情绪值
+          format: float
+        piano:
+          type: boolean
+          description: 请求是否使用钢琴
+        chordPiano:
+          type: boolean
+          description: 请求是否使用钢琴和弦
+        guitar:
+          type: boolean
+          description: 请求是否使用吉他
+        chordGuitar:
+          type: boolean
+          description: 请求是否使用吉他和弦
+        drum:
+          type: boolean
+          description: 请求是否使用鼓
+        bass:
+          type: boolean
+          description: 请求是否使用贝斯
+      description: 用于记录用户的服务请求历史
+    UserData:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: 用户id
+          format: int32
+        username:
+          type: string
+          description: 用户名
+        history:
+          type: array
+          description: 用户的请求历史数据
+          items:
+            $ref: '#/components/schemas/History'
+      description: 用户数据
+    ReqData:
+      type: object
+      required:
+        - pitchSequence
+        - chord
+        - speed
+        - instrument
+        - emo
+      properties:
+        pitchSequence:
+          type: string
+          description: 音高序列
+        chord:
+          type: string
+          description: 和弦
+        speed:
+          type: integer
+          description: 速度
+          format: int32
+        instrument:
+          type: string
+          description: 乐器选择
+        emo:
+          type: number
+          description: 情绪值
+          format: float
+      description: 封装请求信息的类

@@ -1,0 +1,7 @@
+chord module
+============
+
+.. automodule:: chord
+   :members:
+   :undoc-members:
+   :show-inheritance:

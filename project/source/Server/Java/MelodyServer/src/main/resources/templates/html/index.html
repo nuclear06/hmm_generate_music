@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Start Travel!</title>
+</head>
+<script>
+    let s = window.location.href
+    let reg = /https?:\/\/.*?\//
+    let url = s.match(reg)
+    let target = url[0] + 'server'
+    window.location.href = target
+</script>
+</html>

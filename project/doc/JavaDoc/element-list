@@ -1,0 +1,13 @@
+edu.bupt
+edu.bupt.advice
+edu.bupt.captcha
+edu.bupt.controller
+edu.bupt.core
+edu.bupt.dao
+edu.bupt.domain
+edu.bupt.Interceptor
+edu.bupt.service
+edu.bupt.service.Impl
+edu.bupt.ui
+edu.bupt.utils
+edu.bupt.utils.impl

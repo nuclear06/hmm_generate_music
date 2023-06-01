@@ -1,0 +1,69 @@
+mybatis-plus:
+  global-config:
+    banner: off
+    db-config:
+      id-type: auto
+      table-prefix: tbl_
+  configuration:
+    map-underscore-to-camel-case: true
+server:
+  port: 443 #HTTPS端口
+  http-port: 80 #HTTP端口
+  error:
+    path: /error
+  ssl:
+    enabled: false
+    key-store: D:\example\tomcat.key #HTTPS密钥路径
+    key-store-type: JKS #密钥类型
+    key-password: nuclear_08  #密钥密码
+    key-store-password: nuclear_08  #密钥密码
+    key-alias: tomcat
+  tomcat:
+    reject-illegal-header: false
+
+#  file:
+#    path: ./
+#    name: log
+
+spring:
+  thymeleaf:
+    cache: true
+    prefix: classpath:/templates/
+  mvc:
+    static-path-pattern: static/**
+    # 重要：配置数据库连接信息
+  datasource:
+    url: jdbc:mysql://localhost:3306/homework
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  servlet:
+    multipart:
+      max-file-size: 12MB
+      max-request-size: 15MB
+#配置日志等级
+logging:
+  level:
+    root: info
+
+# #   springdoc
+#springdoc:
+#  packages-to-scan: edu.bupt
+#  swagger-ui:
+#    path: api
+
+#以下为自定义属性
+rsa-key-path:
+  path: C:\example\MelodyServer\key  #RSA加密的密钥路径，要求是绝对路径，要求密钥是二进制格式
+  public-key-name: rsa.pub #RSA公钥文件名
+  private-key-name: rsa #RSA私钥文件名
+cache: #缓存路径
+  main-path: D:\cache #主缓存路径
+  input-file-path: D:\cache\input #输入文件缓存路径
+  output-file-path: D:\cache\output #输出文件缓存路径
+service:
+  deploy:
+    only-https: false #强制走HTTPS
+  debug:
+    need-login: true  #使用服务是否需要登陆
+    save-sql-log: true #是否保存数据到sql，如果为false则前端无法获取到生成的文件！

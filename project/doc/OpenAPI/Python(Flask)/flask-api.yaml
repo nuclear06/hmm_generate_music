@@ -1,0 +1,67 @@
+openapi: 3.0.3
+info:
+  title: 获取旋律指导API
+  description: 指导如何对flask发出请求,并对参数和限制做出说明
+  version: 1.0.0
+servers:
+  - url: 'https'
+paths:
+  /main:
+    get:
+      summary: 发出获取旋律请求
+      responses:
+        '200':
+          description: 一切正常,返回音频文件
+          content:
+            audio/mpeg:
+              schema:
+                type: string
+                format: binary
+                example: 二进制数据
+        '400':
+          description: 出现异常,请求失败.返回空数据
+
+      parameters:
+        - name: str
+          in: query
+          required: true
+          description: 音高序列,使用','分隔音高,使用/分隔小节
+          schema:
+            type: string
+            example: 4,4,4,4/4,4,4,4,7,7,7
+        - name: a
+          in: query
+          description: 大调,取值为['C','bD','D','bE','E','F','bG','G','bA','A','bB','B']中的一个
+          required: true
+          schema:
+            type: string
+            example: C
+        - name: speed
+          description: 音乐速度(BPM)
+          in: query
+          required: true
+          schema:
+            type: integer
+            example: 5000
+            minimum: 0
+#            maximum: ?
+        - name: c
+          description: 选择的乐器,为6位数字,每位数字是否选择一种乐器:1为选择,0位未选.1~6位分别对应[钢琴分解,钢琴柱式,吉他分解,吉他柱式,鼓,贝斯]
+          in: query
+          required: true
+          schema:
+            type: integer
+            minLength: 6
+            maxLength: 6
+            example: 110011
+        - name: happy
+          in: query
+          required: true
+          description: 情绪的倾向,接近0表示悲伤,接近1表示高兴
+          schema:
+            type: number
+            format: float
+            minimum: 0.0
+            maximum: 1.0
+            example: 0.6
+

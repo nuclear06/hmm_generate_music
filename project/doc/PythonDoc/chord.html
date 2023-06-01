@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>chord module &mdash; HMM 0.1.7-Delta documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            HMM
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">chord module</a><ul>
+<li><a class="reference internal" href="#chord.Chord"><code class="docutils literal notranslate"><span class="pre">Chord</span></code></a><ul>
+<li><a class="reference internal" href="#chord.Chord.addChordNote"><code class="docutils literal notranslate"><span class="pre">Chord.addChordNote()</span></code></a></li>
+<li><a class="reference internal" href="#chord.Chord.bigChordNote"><code class="docutils literal notranslate"><span class="pre">Chord.bigChordNote()</span></code></a></li>
+<li><a class="reference internal" href="#chord.Chord.decreaseChordNote"><code class="docutils literal notranslate"><span class="pre">Chord.decreaseChordNote()</span></code></a></li>
+<li><a class="reference internal" href="#chord.Chord.firstChordVelocity"><code class="docutils literal notranslate"><span class="pre">Chord.firstChordVelocity()</span></code></a></li>
+<li><a class="reference internal" href="#chord.Chord.fourthChordVelocity"><code class="docutils literal notranslate"><span class="pre">Chord.fourthChordVelocity()</span></code></a></li>
+<li><a class="reference internal" href="#chord.Chord.secondChordVelocity"><code class="docutils literal notranslate"><span class="pre">Chord.secondChordVelocity()</span></code></a></li>
+<li><a class="reference internal" href="#chord.Chord.smallChordNote"><code class="docutils literal notranslate"><span class="pre">Chord.smallChordNote()</span></code></a></li>
+<li><a class="reference internal" href="#chord.Chord.susChordNote"><code class="docutils literal notranslate"><span class="pre">Chord.susChordNote()</span></code></a></li>
+<li><a class="reference internal" href="#chord.Chord.thirdChordVelocity"><code class="docutils literal notranslate"><span class="pre">Chord.thirdChordVelocity()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">HMM</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">chord module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/chord.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-chord">
+<span id="chord-module"></span><h1>chord module<a class="headerlink" href="#module-chord" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="chord.Chord">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">chord.</span></span><span class="sig-name descname"><span class="pre">Chord</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">note0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">velocity_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chord_type</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/chord.html#Chord"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#chord.Chord" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>用于生成音乐和弦，提供了不同类型和音量的和弦生成方法</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="chord.Chord.addChordNote">
+<span class="sig-name descname"><span class="pre">addChordNote</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">note0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/chord.html#Chord.addChordNote"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#chord.Chord.addChordNote" title="Permalink to this definition"></a></dt>
+<dd><p>添加增强和弦</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>note0</strong> – </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="chord.Chord.bigChordNote">
+<span class="sig-name descname"><span class="pre">bigChordNote</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">note0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/chord.html#Chord.bigChordNote"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#chord.Chord.bigChordNote" title="Permalink to this definition"></a></dt>
+<dd><p>添加大调和弦</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>note0</strong> – </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="chord.Chord.decreaseChordNote">
+<span class="sig-name descname"><span class="pre">decreaseChordNote</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">note0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/chord.html#Chord.decreaseChordNote"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#chord.Chord.decreaseChordNote" title="Permalink to this definition"></a></dt>
+<dd><p>添加减弱和弦</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>note0</strong> – </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="chord.Chord.firstChordVelocity">
+<span class="sig-name descname"><span class="pre">firstChordVelocity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/chord.html#Chord.firstChordVelocity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#chord.Chord.firstChordVelocity" title="Permalink to this definition"></a></dt>
+<dd><p>设置三个音符的音量</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="chord.Chord.fourthChordVelocity">
+<span class="sig-name descname"><span class="pre">fourthChordVelocity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/chord.html#Chord.fourthChordVelocity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#chord.Chord.fourthChordVelocity" title="Permalink to this definition"></a></dt>
+<dd><p>设置三个音符的音量为56/46/43</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="chord.Chord.secondChordVelocity">
+<span class="sig-name descname"><span class="pre">secondChordVelocity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/chord.html#Chord.secondChordVelocity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#chord.Chord.secondChordVelocity" title="Permalink to this definition"></a></dt>
+<dd><p>设置三个音符的音量为60/55/45</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="chord.Chord.smallChordNote">
+<span class="sig-name descname"><span class="pre">smallChordNote</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">note0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/chord.html#Chord.smallChordNote"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#chord.Chord.smallChordNote" title="Permalink to this definition"></a></dt>
+<dd><p>添加大调和弦</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>note0</strong> – </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="chord.Chord.susChordNote">
+<span class="sig-name descname"><span class="pre">susChordNote</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">note0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/chord.html#Chord.susChordNote"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#chord.Chord.susChordNote" title="Permalink to this definition"></a></dt>
+<dd><p>添加增强和弦</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>note0</strong> – </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="chord.Chord.thirdChordVelocity">
+<span class="sig-name descname"><span class="pre">thirdChordVelocity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/chord.html#Chord.thirdChordVelocity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#chord.Chord.thirdChordVelocity" title="Permalink to this definition"></a></dt>
+<dd><p>设置三个音符的音量为85/78/65</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Anonymous.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

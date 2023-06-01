@@ -1,0 +1,7 @@
+bass module
+===========
+
+.. automodule:: bass
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>hmm module &mdash; HMM 0.1.7-Delta documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            HMM
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">hmm module</a><ul>
+<li><a class="reference internal" href="#hmm.HMM"><code class="docutils literal notranslate"><span class="pre">HMM</span></code></a><ul>
+<li><a class="reference internal" href="#hmm.HMM.data_write_single"><code class="docutils literal notranslate"><span class="pre">HMM.data_write_single()</span></code></a></li>
+<li><a class="reference internal" href="#hmm.HMM.viterbi"><code class="docutils literal notranslate"><span class="pre">HMM.viterbi()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#hmm.mmm"><code class="docutils literal notranslate"><span class="pre">mmm()</span></code></a></li>
+<li><a class="reference internal" href="#hmm.read_data_mul"><code class="docutils literal notranslate"><span class="pre">read_data_mul()</span></code></a></li>
+<li><a class="reference internal" href="#hmm.read_data_single"><code class="docutils literal notranslate"><span class="pre">read_data_single()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">HMM</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">hmm module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/hmm.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-hmm">
+<span id="hmm-module"></span><h1>hmm module<a class="headerlink" href="#module-hmm" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="hmm.HMM">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">hmm.</span></span><span class="sig-name descname"><span class="pre">HMM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pi</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/hmm.html#HMM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hmm.HMM" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="hmm.HMM.data_write_single">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data_write_single</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/hmm.html#HMM.data_write_single"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hmm.HMM.data_write_single" title="Permalink to this definition"></a></dt>
+<dd><p>将一维数组写入xls文件</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file_path</strong> – 文件名</p></li>
+<li><p><strong>data</strong> – 数据</p></li>
+<li><p><strong>n</strong> – 长度</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hmm.HMM.viterbi">
+<span class="sig-name descname"><span class="pre">viterbi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/hmm.html#HMM.viterbi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hmm.HMM.viterbi" title="Permalink to this definition"></a></dt>
+<dd><p>维特比算法，用于解码给定的观察序列并计算在HMM模型中最有可能的状态序列，即最优路径。</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>observe</strong> – 观察序列，每个元素表示在对应时间步长中观察到的状态</p></li>
+<li><p><strong>state</strong> – 隐藏状态序列，每个元素表示在对应时间步长中的隐藏状态</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>在HMM模型中最有可能的状态序列，即最优路径.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="hmm.mmm">
+<span class="sig-prename descclassname"><span class="pre">hmm.</span></span><span class="sig-name descname"><span class="pre">mmm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">emo</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/hmm.html#mmm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hmm.mmm" title="Permalink to this definition"></a></dt>
+<dd><p>使用viterbi算法计算最优序列并返回,序列也会写入out.xls</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>emo</strong> – 情绪值，要处于[0,1]</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>最优序列</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="hmm.read_data_mul">
+<span class="sig-prename descclassname"><span class="pre">hmm.</span></span><span class="sig-name descname"><span class="pre">read_data_mul</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/hmm.html#read_data_mul"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hmm.read_data_mul" title="Permalink to this definition"></a></dt>
+<dd><p>以ndarry形式返回文件数据</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file</strong> – 读取的文件</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="hmm.read_data_single">
+<span class="sig-prename descclassname"><span class="pre">hmm.</span></span><span class="sig-name descname"><span class="pre">read_data_single</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/hmm.html#read_data_single"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hmm.read_data_single" title="Permalink to this definition"></a></dt>
+<dd><p>从xls文件读取数据，仅返回第一行数据。</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file</strong> – 文件路径</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Anonymous.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

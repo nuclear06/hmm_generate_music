@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>createMidi &mdash; HMM 0.1.7-Delta documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            HMM
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">createMidi</a></li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">HMM</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">createMidi</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/modules.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="createmidi">
+<h1>createMidi<a class="headerlink" href="#createmidi" title="Permalink to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="CONSTANT.html">CONSTANT module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bass.html">bass module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="bass.html#bass.create_bass"><code class="docutils literal notranslate"><span class="pre">create_bass()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chord.html">chord module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chord.html#chord.Chord"><code class="docutils literal notranslate"><span class="pre">Chord</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chord.html#chord.Chord.addChordNote"><code class="docutils literal notranslate"><span class="pre">Chord.addChordNote()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="chord.html#chord.Chord.bigChordNote"><code class="docutils literal notranslate"><span class="pre">Chord.bigChordNote()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="chord.html#chord.Chord.decreaseChordNote"><code class="docutils literal notranslate"><span class="pre">Chord.decreaseChordNote()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="chord.html#chord.Chord.firstChordVelocity"><code class="docutils literal notranslate"><span class="pre">Chord.firstChordVelocity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="chord.html#chord.Chord.fourthChordVelocity"><code class="docutils literal notranslate"><span class="pre">Chord.fourthChordVelocity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="chord.html#chord.Chord.secondChordVelocity"><code class="docutils literal notranslate"><span class="pre">Chord.secondChordVelocity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="chord.html#chord.Chord.smallChordNote"><code class="docutils literal notranslate"><span class="pre">Chord.smallChordNote()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="chord.html#chord.Chord.susChordNote"><code class="docutils literal notranslate"><span class="pre">Chord.susChordNote()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="chord.html#chord.Chord.thirdChordVelocity"><code class="docutils literal notranslate"><span class="pre">Chord.thirdChordVelocity()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="core.html">core module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="core.html#core.chord_note"><code class="docutils literal notranslate"><span class="pre">chord_note()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="core.html#core.chord_type"><code class="docutils literal notranslate"><span class="pre">chord_type()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="core.html#core.createOneChord"><code class="docutils literal notranslate"><span class="pre">createOneChord()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="core.html#core.process_str"><code class="docutils literal notranslate"><span class="pre">process_str()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dataProcess.html">dataProcess module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dataProcess.html#dataProcess.input_data"><code class="docutils literal notranslate"><span class="pre">input_data()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataProcess.html#dataProcess.melody_metrix"><code class="docutils literal notranslate"><span class="pre">melody_metrix()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataProcess.html#dataProcess.str_to_arr"><code class="docutils literal notranslate"><span class="pre">str_to_arr()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataProcess.html#dataProcess.to_C"><code class="docutils literal notranslate"><span class="pre">to_C()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="drum.html">drum module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="drum.html#drum.drum"><code class="docutils literal notranslate"><span class="pre">drum()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="hmm.html">hmm module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="hmm.html#hmm.HMM"><code class="docutils literal notranslate"><span class="pre">HMM</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="hmm.html#hmm.HMM.data_write_single"><code class="docutils literal notranslate"><span class="pre">HMM.data_write_single()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="hmm.html#hmm.HMM.viterbi"><code class="docutils literal notranslate"><span class="pre">HMM.viterbi()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="hmm.html#hmm.mmm"><code class="docutils literal notranslate"><span class="pre">mmm()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="hmm.html#hmm.read_data_mul"><code class="docutils literal notranslate"><span class="pre">read_data_mul()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="hmm.html#hmm.read_data_single"><code class="docutils literal notranslate"><span class="pre">read_data_single()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="merge.html">merge module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="merge.html#merge.convertMidiToMp3"><code class="docutils literal notranslate"><span class="pre">convertMidiToMp3()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="merge.html#merge.merge"><code class="docutils literal notranslate"><span class="pre">merge()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="merge.html#merge.remove"><code class="docutils literal notranslate"><span class="pre">remove()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="server.html">server module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="server.html#server.get_resp_bytes"><code class="docutils literal notranslate"><span class="pre">get_resp_bytes()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="server.html#server.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="track.html">track module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="track.html#track.Track"><code class="docutils literal notranslate"><span class="pre">Track</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="track.html#track.Track.createTrack"><code class="docutils literal notranslate"><span class="pre">Track.createTrack()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="track.html#track.Track.inputChord"><code class="docutils literal notranslate"><span class="pre">Track.inputChord()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="track.html#track.Track.save_mid"><code class="docutils literal notranslate"><span class="pre">Track.save_mid()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Anonymous.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

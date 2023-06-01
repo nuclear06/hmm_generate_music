@@ -1,0 +1,7 @@
+drum module
+===========
+
+.. automodule:: drum
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,108 @@
+body {
+    background-image: url("/static/img/background.jpg");
+    background-size: auto;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+a {
+    float: right;
+    margin-right: 30px;
+}
+
+.container {
+    width: 420px;
+    min-height: 320px;
+    max-height: 320px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    padding: 20px 20px 80px 20px;
+    z-index: 130;
+    border-radius: 8px;
+    background-color: rgba(245, 245, 220, 0.9);
+    box-shadow: 0 3px 18px rgba(100, 0, 0, .5);
+    font-size: 16px;
+}
+.register_container{
+    width: 420px;
+    min-height: 400px;
+    max-height: 400px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    padding: 20px 20px 80px 20px;
+    z-index: 130;
+    border-radius: 8px;
+    background-color: rgba(245, 245, 220, 0.9);
+    box-shadow: 0 3px 18px rgba(100, 0, 0, .5);
+    font-size: 16px;
+}
+
+.layui-input {
+    border-style: none;
+}
+
+.layui-icon {
+    margin-right: 10px;
+}
+
+#login, #register {
+    border-radius: 15px;
+    margin-left: 45px;
+}
+
+.my_input {
+
+    display: flex;
+    border: 1px solid #D2D2D2 !important;
+    background-color: #fff;
+    height: 38px;
+    line-height: 36px;
+    padding: 0px 20px;
+    margin: 30px 20px 30px 40px;
+    border-radius: 19px;
+}
+
+#captcha-img{
+    height: 36px;
+    float: right;
+    border: brown 1px outset;
+}
+
+
+.login-title {
+    font-size: 30px;
+    padding-bottom: 15px;
+    text-align: center;
+    color: saddlebrown;
+}
+
+
+.layui-btn {
+    margin-left: -50px;
+    border-radius: 8px;
+    width: 350px;
+    height: 40px;
+    font-size: 15px;
+}
+
+.verity {
+    width: 120px;
+}
+
+.font-set {
+    font-size: 13px;
+    text-decoration: none;
+    margin-left: 120px;
+}
+
+a:hover {
+    text-decoration: underline;
+}
